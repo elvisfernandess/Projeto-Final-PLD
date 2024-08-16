@@ -50,26 +50,30 @@ BEGIN
         CASE pr_state IS
             WHEN YY =>
                 IF start = '1' THEN
-                    count_limit <= to_unsigned(10, 8);
+                    count_limit <= to_unsigned(2, 8);
                     nx_state    <= RG;  -- Transição para o próximo estado estado após 10
                 ELSE
                     nx_state <= YY;
                 END IF;
 
             WHEN RG =>
-                count_limit <= to_unsigned(15, 8);
-                nx_state    <= RY;      -- Transição para o próximo estado estado após 15
+				IF start = '1' THEN
+					count_limit <= to_unsigned(2, 8);
+				    nx_state    <= RY;      -- Transição para o próximo estado estado após 15
+			ELSE	
+					nx_state    <= RG;      -- Transição para o próximo estado estado após 15
+					END IF;
 
             WHEN RY =>
-                count_limit <= to_unsigned(20, 8);
+                count_limit <= to_unsigned(2, 8);
                 nx_state    <= GR;      -- Transição para o próximo estado após 20
 
             WHEN GR =>
-                count_limit <= to_unsigned(25, 8);
+                count_limit <= to_unsigned(2, 8);
                 nx_state    <= YR;      -- Transição para o próximo estado após 25
 
             WHEN YR =>
-                count_limit <= to_unsigned(30, 8);
+                count_limit <= to_unsigned(2, 8);
                 nx_state    <= YY;      -- Retorna ao estado inicial após 30
         END CASE;
     END PROCESS;
@@ -80,15 +84,19 @@ BEGIN
     -- Controle das luzes do semáforo baseado no estado atual
     PROCESS(pr_state)
     BEGIN
-        -- Estado padrão de todas as luzes
+ 
+
+        CASE pr_state IS
+		  
+				          WHEN YY =>
+                   -- Estado padrão de todas as luzes
         r1 <= '0';                      -- Desativa o sinal vermelho do primeiro semáforo
         r2 <= '0';                      -- Desativa o sinal vermelho do segundo semáforo
         y1 <= '1';                      -- Ativa o sinal amarelo do primeiro semáforo
         y2 <= '1';                      -- Ativa o sinal amarelo do segundo semáforo
         g1 <= '0';                      -- Desativa o sinal verde do primeiro semáforo
         g2 <= '0';                      -- Desativa o sinal verde do segundo semáforo
-
-        CASE pr_state IS
+				
             WHEN RG =>
                 r1 <= '1';              -- Ativa o sinal vermelho do primeiro semáforo
                 r2 <= '0';              -- Desativa o sinal vermelho do segundo semáforo
@@ -121,14 +129,14 @@ BEGIN
                 g1 <= '0';              -- Desativa o sinal verde do primeiro semáforo
                 g2 <= '0';              -- Desativa o sinal verde do segundo semáforo
 
-            WHEN OTHERS =>
+            --WHEN OTHERS =>
                 -- Estado padrão de todas as luzes
-                r1 <= '0';              -- Desativa o sinal vermelho do primeiro semáforo
-                r2 <= '0';              -- Desativa o sinal vermelho do segundo semáforo
-                y1 <= '1';              -- Ativa o sinal amarelo do primeiro semáforo
-                y2 <= '1';              -- Ativa o sinal amarelo do segundo semáforo
-                g1 <= '0';              -- Desativa o sinal verde do primeiro semáforo
-                g2 <= '0';              -- Desativa o sinal verde do segundo semáforo
+                --r1 <= '1';              -- Desativa o sinal vermelho do primeiro semáforo
+                --r2 <= '1';              -- Desativa o sinal vermelho do segundo semáforo
+                --y1 <= '0';              -- Ativa o sinal amarelo do primeiro semáforo
+                --y2 <= '0';              -- Ativa o sinal amarelo do segundo semáforo
+                --g1 <= '0';              -- Desativa o sinal verde do primeiro semáforo
+                --g2 <= '0';              -- Desativa o sinal verde do segundo semáforo
         END CASE;
     END PROCESS;
 
