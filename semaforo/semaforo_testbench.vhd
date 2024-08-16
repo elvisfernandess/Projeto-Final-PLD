@@ -6,32 +6,32 @@ entity semaforo_testbench is
 end entity semaforo_testbench;
 
 architecture stimulus of semaforo_testbench is
-    signal clk      : std_logic;
-    signal rst      : std_logic;
-    signal start    : std_logic;
-	SIGNAL r1       : std_logic;          -- Sinal de saída para o vermelho do primeiro semáforo
-    SIGNAL y1       : std_logic;          -- Sinal de saída para o amarelo do primeiro semáforo
-    SIGNAL g1       : std_logic;          -- Sinal de saída para o verde do primeiro semáforo
-    SIGNAL r2       : std_logic;          -- Sinal de saída para o vermelho do segundo semáforo
-    SIGNAL y2       : std_logic;          -- Sinal de saída para o amarelo do segundo semáforo
-    SIGNAL g2       : std_logic;          -- Sinal de saída para o verde do segundo semáforo
-    signal counter  : INTEGER;
+    signal clk     : std_logic;
+    signal rst     : std_logic;
+    signal start   : std_logic;
+    signal r1      : std_logic;         -- Sinal de saída para o vermelho do primeiro semáforo
+    signal y1      : std_logic;         -- Sinal de saída para o amarelo do primeiro semáforo
+    signal g1      : std_logic;         -- Sinal de saída para o verde do primeiro semáforo
+    signal r2      : std_logic;         -- Sinal de saída para o vermelho do segundo semáforo
+    signal y2      : std_logic;         -- Sinal de saída para o amarelo do segundo semáforo
+    signal g2      : std_logic;         -- Sinal de saída para o verde do segundo semáforo
+    signal counter : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
 
 begin
 
     -- Instância do DUT (Design Under Test)
     dut : entity work.semaforo
         port map(
-            clk      => clk,
-            rst      => rst,
-            start    => start,
-            r1       => r1,     
-            r2       => r2,     
-            y1       => y1,     
-            y2       => y2,     
-            g1       => g1,     
-            g2       => g2,     
-            counter  => counter
+            clk     => clk,
+            rst     => rst,
+            start   => start,
+            r1      => r1,
+            r2      => r2,
+            y1      => y1,
+            y2      => y2,
+            g1      => g1,
+            g2      => g2,
+            counter => counter
         );
 
     -- Geração do clock de 10 ns (50 MHz)
@@ -46,9 +46,9 @@ begin
     -- Processo para resetar o sistema
     stimulus_process_reset : process
     begin
-        rst <= '1';                       -- Ativa reset
+        rst <= '1';                     -- Ativa reset
         wait for 10 ns;
-        rst <= '0';                       -- Libera reset após 10 ns
+        rst <= '0';                     -- Libera reset após 10 ns
         wait;
     end process stimulus_process_reset;
 
@@ -56,9 +56,9 @@ begin
     start_process : process
     begin
         start <= '0';
-        wait for 30 ns;                   -- Espera 30 ns antes de ativar o start
+        wait for 30 ns;                 -- Espera 30 ns antes de ativar o start
         start <= '1';
         wait;
     end process start_process;
-	
+
 end architecture stimulus;

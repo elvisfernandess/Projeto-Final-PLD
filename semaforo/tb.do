@@ -24,7 +24,7 @@ add wave -radix binary  /y2
 add wave -radix binary  /g2
 
 #Simula até um 500ns
-run 500000
+run 2500
 
 wave zoomfull
 write wave wave.ps
