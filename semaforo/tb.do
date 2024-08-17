@@ -14,6 +14,7 @@ view wave
 add wave -radix binary  /clk
 add wave -radix binary  /rst
 add wave -radix binary  /start
+add wave -radix binary  /tempo_contagem
 add wave -radix uns  /counter
 add wave /dut/pr_state
 add wave -radix binary  /r1

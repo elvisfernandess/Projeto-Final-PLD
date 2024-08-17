@@ -90,14 +90,36 @@ architecture rtl of de10_lite is
     signal y2      : std_logic;         -- Sinal de saída para o amarelo do segundo semáforo
     signal g2      : std_logic;         -- Sinal de saída para o verde do segundo semáforo
     signal signal_counter : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
-	 signal count_out         : unsigned(7 downto 0);
-	     signal clk_div           : std_logic := '0'; -- Sinal de clock dividido
+	 signal count_out      : unsigned(7 downto 0);
+	 signal clk_div        : std_logic := '0'; -- Sinal de clock dividido
+	 signal signal_counter_probe : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
+	 signal source         : std_logic_vector(7 downto 0);
+    signal probe          : std_logic_vector(7 downto 0);
+	 signal tempo_contagem          : unsigned(7 downto 0);
 
 	
+	component unnamed is
+		port (
+			source : out std_logic_vector(7 downto 0);                    -- source
+			probe  : in  std_logic_vector(7 downto 0) := (others => 'X')  -- probe
+		);
+	end component unnamed;
 	
 
 	
 begin
+
+	    u0 : component unnamed
+        port map(
+            source => source,           -- sources.source
+            probe  => probe             --  probes.probe
+        );
+		  
+	 probe <= std_logic_vector(signal_counter);
+	 signal_counter <=signal_counter_probe;
+	 tempo_contagem <= unsigned(source(7 downto 0));
+
+
 	
 	    -- Divisor de Clock para gerar um sinal de clock mais lento
     process(MAX10_CLK1_50)
@@ -129,20 +151,15 @@ begin
             clk     => clk_div,
             rst     => SW(1),
             start   => SW(0),
+				tempo_contagem => tempo_contagem,
             r1      => LEDR(0),
             r2      => LEDR(1),
             y1      => LEDR(2),
             y2      => LEDR(3),
             g1      => LEDR(4),
             g2      => LEDR(5),
-            counter => signal_counter
+            counter => signal_counter_probe
         );
 	
-	
-
-
-	
-	
-
 end architecture rtl;
 

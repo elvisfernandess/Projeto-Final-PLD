@@ -7,13 +7,14 @@ ENTITY semaforo IS
         clk     : IN  std_logic;
         rst     : IN  std_logic;
         start   : IN  std_logic;
+	    tempo_contagem : IN UNSIGNED(7 DOWNTO 0);
         r1      : OUT std_logic;        -- Saída para o sinal vermelho do primeiro semáforo
         y1      : OUT std_logic;        -- Saída para o sinal amarelo do primeiro semáforo
         g1      : OUT std_logic;        -- Saída para o sinal verde do primeiro semáforo
         r2      : OUT std_logic;        -- Saída para o sinal vermelho do segundo semáforo
         y2      : OUT std_logic;        -- Saída para o sinal amarelo do segundo semáforo
         g2      : OUT std_logic;        -- Saída para o sinal verde do segundo semáforo
-        counter : OUT UNSIGNED(7 DOWNTO 0) -- Sinal de contador 1 (precisa de 9 bits para o máximo valor 500)
+        counter : OUT UNSIGNED(7 DOWNTO 0) -- Sinal de contador 1 (precisa de 8 bits para o máximo valor 500)
     );
 END ENTITY semaforo;
 
@@ -45,36 +46,45 @@ BEGIN
     END PROCESS;
 
     -- Lógica de transição de estado e definição de tempo
-    PROCESS(pr_state, start)
+    PROCESS(pr_state, tempo_contagem, start)
     BEGIN
+	
+	-- Valor padrão para evitar latches
+        count_limit <= (others => '0');  -- Inicializa com um valor padrão
+		
         CASE pr_state IS
             WHEN YY =>
                 IF start = '1' THEN
-                    count_limit <= to_unsigned(2, 8);
-                    nx_state    <= RG;  -- Transição para o próximo estado estado após 10
+                    --count_limit <= to_unsigned(2, 8);
+					count_limit <= tempo_contagem;
+                    nx_state    <= RG;  -- Transição para o próximo estado estado após 2
                 ELSE
                     nx_state <= YY;
                 END IF;
 
             WHEN RG =>
 				IF start = '1' THEN
-					count_limit <= to_unsigned(2, 8);
-				    nx_state    <= RY;      -- Transição para o próximo estado estado após 15
+					--count_limit <= to_unsigned(2, 8);
+					count_limit <= tempo_contagem;
+				    nx_state    <= RY;      -- Transição para o próximo estado estado após 2
 			ELSE	
-					nx_state    <= RG;      -- Transição para o próximo estado estado após 15
+					nx_state    <= RG;      -- Transição para o próximo estado estado após 2
 					END IF;
 
             WHEN RY =>
-                count_limit <= to_unsigned(2, 8);
-                nx_state    <= GR;      -- Transição para o próximo estado após 20
+                --count_limit <= to_unsigned(2, 8);
+				count_limit <= tempo_contagem;
+                nx_state    <= GR;      -- Transição para o próximo estado após 2
 
             WHEN GR =>
-                count_limit <= to_unsigned(2, 8);
-                nx_state    <= YR;      -- Transição para o próximo estado após 25
+                --count_limit <= to_unsigned(2, 8);
+				count_limit <= tempo_contagem;
+                nx_state    <= YR;      -- Transição para o próximo estado após 2
 
             WHEN YR =>
-                count_limit <= to_unsigned(2, 8);
-                nx_state    <= YY;      -- Retorna ao estado inicial após 30
+                --count_limit <= to_unsigned(2, 8);
+				count_limit <= tempo_contagem;
+                nx_state    <= YY;      -- Retorna ao estado inicial após 2
         END CASE;
     END PROCESS;
 
@@ -88,14 +98,13 @@ BEGIN
 
         CASE pr_state IS
 		  
-				          WHEN YY =>
-                   -- Estado padrão de todas as luzes
-        r1 <= '0';                      -- Desativa o sinal vermelho do primeiro semáforo
-        r2 <= '0';                      -- Desativa o sinal vermelho do segundo semáforo
-        y1 <= '1';                      -- Ativa o sinal amarelo do primeiro semáforo
-        y2 <= '1';                      -- Ativa o sinal amarelo do segundo semáforo
-        g1 <= '0';                      -- Desativa o sinal verde do primeiro semáforo
-        g2 <= '0';                      -- Desativa o sinal verde do segundo semáforo
+			WHEN YY =>
+				r1 <= '0';              -- Desativa o sinal vermelho do primeiro semáforo
+			    r2 <= '0';              -- Desativa o sinal vermelho do segundo semáforo
+				y1 <= '1';              -- Ativa o sinal amarelo do primeiro semáforo
+				y2 <= '1';              -- Ativa o sinal amarelo do segundo semáforo
+				g1 <= '0';              -- Desativa o sinal verde do primeiro semáforo
+				g2 <= '0';              -- Desativa o sinal verde do segundo semáforo
 				
             WHEN RG =>
                 r1 <= '1';              -- Ativa o sinal vermelho do primeiro semáforo
