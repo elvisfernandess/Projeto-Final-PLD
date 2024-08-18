@@ -80,27 +80,31 @@ architecture rtl of de10_lite is
         );
     end component counter;
 
-	 signal clk     : std_logic;
-    signal rst     : std_logic;
-    signal start   : std_logic;
-    signal r1      : std_logic;         -- Sinal de saída para o vermelho do primeiro semáforo
-    signal y1      : std_logic;         -- Sinal de saída para o amarelo do primeiro semáforo
-    signal g1      : std_logic;         -- Sinal de saída para o verde do primeiro semáforo
-    signal r2      : std_logic;         -- Sinal de saída para o vermelho do segundo semáforo
-    signal y2      : std_logic;         -- Sinal de saída para o amarelo do segundo semáforo
-    signal g2      : std_logic;         -- Sinal de saída para o verde do segundo semáforo
-    signal signal_counter : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
-	 signal count_out      : unsigned(7 downto 0);
-	 signal clk_div        : std_logic := '0'; -- Sinal de clock dividido
+    signal clk           : std_logic;
+    signal rst           : std_logic;
+    signal start         : std_logic;
+    signal r1            : std_logic;         -- Sinal de saída para o vermelho do primeiro semáforo
+    signal y1            : std_logic;         -- Sinal de saída para o amarelo do primeiro semáforo
+    signal g1            : std_logic;         -- Sinal de saída para o verde do primeiro semáforo
+    signal r2            : std_logic;         -- Sinal de saída para o vermelho do segundo semáforo
+    signal y2            : std_logic;         -- Sinal de saída para o amarelo do segundo semáforo
+    signal g2            : std_logic;         -- Sinal de saída para o verde do segundo semáforo
+    signal tempo_contagem: unsigned(15 downto 0);
+    signal count_out     : unsigned(7 downto 0);
+    signal clk_div       : std_logic := '0'; -- Sinal de clock dividido
+    signal source        : std_logic_vector(15 downto 0);
+    signal probe         : std_logic_vector(7 downto 0);
+    signal tempo_contagem1: unsigned(7 downto 0);
+    signal tempo_contagem2: unsigned(15 downto 8);
+    signal counter1      : unsigned(7 downto 0);
+    signal counter2      : unsigned(7 downto 0);
 	 signal signal_counter_probe : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
-	 signal source         : std_logic_vector(7 downto 0);
-    signal probe          : std_logic_vector(7 downto 0);
-	 signal tempo_contagem          : unsigned(7 downto 0);
+	 signal signal_counter : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
 
 	
 	component unnamed is
 		port (
-			source : out std_logic_vector(7 downto 0);                    -- source
+			source : out std_logic_vector(15 downto 0);                    -- source
 			probe  : in  std_logic_vector(7 downto 0) := (others => 'X')  -- probe
 		);
 	end component unnamed;
@@ -117,7 +121,9 @@ begin
 		  
 	 probe <= std_logic_vector(signal_counter);
 	 signal_counter <=signal_counter_probe;
-	 tempo_contagem <= unsigned(source(7 downto 0));
+    tempo_contagem1 <= unsigned(source(7 downto 0));
+    tempo_contagem2 <= unsigned(source(15 downto 8));
+    tempo_contagem <= unsigned(source);
 
 
 	
@@ -158,7 +164,9 @@ begin
             y2      => LEDR(3),
             g1      => LEDR(4),
             g2      => LEDR(5),
-            counter => signal_counter_probe
+				counter1 => counter1, -- Conecte o contador correto aqui
+				counter2 => counter2  -- Conecte o contador correto aqui
+				
         );
 	
 end architecture rtl;
