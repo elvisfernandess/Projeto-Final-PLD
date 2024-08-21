@@ -91,6 +91,8 @@ architecture rtl of de10_lite is
     signal tempo_contagem2: unsigned(7 downto 0);
     signal counter1      : unsigned(7 downto 0);
     signal counter2      : unsigned(7 downto 0);
+    signal event_counter1 : unsigned(7 downto 0);
+    signal event_counter2 : unsigned(7 downto 0);
     signal signal_counter_probe : unsigned(7 downto 0);
     signal signal_counter : unsigned(7 downto 0);
 
@@ -99,6 +101,8 @@ architecture rtl of de10_lite is
     signal hex1_data : std_logic_vector(7 downto 0);
     signal hex2_data : std_logic_vector(7 downto 0);
     signal hex3_data : std_logic_vector(7 downto 0);
+    signal hex4_data : std_logic_vector(7 downto 0);
+    signal hex5_data : std_logic_vector(7 downto 0);
 
     component unnamed is
         port (
@@ -169,19 +173,25 @@ begin
             g1      => LEDR(4),
             g2      => LEDR(5),
             counter1 => counter1,
-            counter2 => counter2
+            counter2 => counter2,
+            event_counter1 => event_counter1,
+            event_counter2 => event_counter2
         );
 
     -- Convertendo os valores de contagem para displays de 7 segmentos
-    process(counter1, counter2)
+    process(counter1, counter2, event_counter1, event_counter2)
     begin
-        -- Display HEX0 e HEX1 mostram counter1 (tempo_contagem1)
+        -- Display HEX0 e HEX1 mostram counter1
         hex0_data <= convert_8bits_to_dual_7seg(std_logic_vector(counter1))(7 downto 0);
         hex1_data <= convert_8bits_to_dual_7seg(std_logic_vector(counter1))(15 downto 8);
 
-        -- Display HEX2 e HEX3 mostram counter2 (tempo_contagem2)
+        -- Display HEX2 e HEX3 mostram counter2
         hex2_data <= convert_8bits_to_dual_7seg(std_logic_vector(counter2))(7 downto 0);
         hex3_data <= convert_8bits_to_dual_7seg(std_logic_vector(counter2))(15 downto 8);
+
+        -- Display HEX4 e HEX5 mostram os contadores de eventos
+        hex4_data <= convert_8bits_to_dual_7seg(std_logic_vector(event_counter1))(7 downto 0);
+        hex5_data <= convert_8bits_to_dual_7seg(std_logic_vector(event_counter2))(7 downto 0);
     end process;
 
     -- Atribuindo os valores convertidos aos displays
@@ -189,7 +199,7 @@ begin
     HEX1 <= hex1_data;
     HEX2 <= hex2_data;
     HEX3 <= hex3_data;
-    HEX4 <= (others => '1');  -- Pode ser usado para outros dados ou desativado
-    HEX5 <= (others => '1');  -- Pode ser usado para outros dados ou desativado
+    HEX4 <= hex4_data;
+    HEX5 <= hex5_data;
 
 end architecture rtl;

@@ -15,7 +15,9 @@ ENTITY semaforo IS
         y2               : OUT std_logic;        -- Saída para o sinal amarelo do segundo semáforo
         g2               : OUT std_logic;        -- Saída para o sinal verde do segundo semáforo
         counter1         : OUT UNSIGNED(7 DOWNTO 0); -- Contador do primeiro semáforo
-        counter2         : OUT UNSIGNED(7 DOWNTO 0)  -- Contador do segundo semáforo
+        counter2         : OUT UNSIGNED(7 DOWNTO 0); -- Contador do segundo semáforo
+        event_counter1   : OUT UNSIGNED(7 DOWNTO 0); -- Contador de eventos do primeiro semáforo
+        event_counter2   : OUT UNSIGNED(7 DOWNTO 0)  -- Contador de eventos do segundo semáforo
     );
 END ENTITY semaforo;
 
@@ -26,6 +28,7 @@ ARCHITECTURE state_machine OF semaforo IS
     SIGNAL pr_state2, nx_state2 : state;
     SIGNAL count1, count2       : UNSIGNED(7 DOWNTO 0);
     SIGNAL count_limit1, count_limit2 : UNSIGNED(7 DOWNTO 0); -- Limites de contagem para cada semáforo
+    SIGNAL event_count1, event_count2 : UNSIGNED(7 DOWNTO 0); -- Contadores de eventos
 
 BEGIN
 
@@ -35,12 +38,16 @@ BEGIN
         IF rst = '1' THEN
             pr_state1 <= YY;
             count1    <= (others => '0');
+            event_count1 <= (others => '0'); -- Resetar contador de eventos
         ELSIF (clk'event AND clk = '1') THEN
             IF count1 < count_limit1 THEN
                 count1 <= count1 + 1;
             ELSE
                 count1    <= (others => '0');
                 pr_state1 <= nx_state1;
+                IF start = '1' THEN
+                    event_count1 <= event_count1 + 1; -- Incrementar contador de eventos se start estiver ativado
+                END IF;
             END IF;
         END IF;
     END PROCESS;
@@ -51,12 +58,16 @@ BEGIN
         IF rst = '1' THEN
             pr_state2 <= YY;
             count2    <= (others => '0');
+            event_count2 <= (others => '0'); -- Resetar contador de eventos
         ELSIF (clk'event AND clk = '1') THEN
             IF count2 < count_limit2 THEN
                 count2 <= count2 + 1;
             ELSE
                 count2    <= (others => '0');
                 pr_state2 <= nx_state2;
+                IF start = '1' THEN
+                    event_count2 <= event_count2 + 1; -- Incrementar contador de eventos se start estiver ativado
+                END IF;
             END IF;
         END IF;
     END PROCESS;
@@ -116,6 +127,8 @@ BEGIN
     -- Saída dos contadores
     counter1 <= count1;
     counter2 <= count2;
+    event_counter1 <= event_count1;
+    event_counter2 <= event_count2;
 
     -- Controle das luzes do semáforo baseado no estado atual para o semáforo 1
     PROCESS(pr_state1)
