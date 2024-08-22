@@ -39,7 +39,7 @@ BEGIN
             pr_state1 <= YY;
             count1    <= (others => '0');
             event_count1 <= (others => '0'); -- Resetar contador de eventos
-        ELSIF (clk'event AND clk = '1') THEN
+        ELSIF rising_edge(clk) THEN
             IF count1 < count_limit1 THEN
                 count1 <= count1 + 1;
             ELSE
@@ -59,7 +59,7 @@ BEGIN
             pr_state2 <= YY;
             count2    <= (others => '0');
             event_count2 <= (others => '0'); -- Resetar contador de eventos
-        ELSIF (clk'event AND clk = '1') THEN
+        ELSIF rising_edge(clk) THEN
             IF count2 < count_limit2 THEN
                 count2 <= count2 + 1;
             ELSE
@@ -70,7 +70,7 @@ BEGIN
                 END IF;
             END IF;
         END IF;
-    END PROCESS;
+    END PROCESS;	
 
     -- Lógica de transição de estado e definição de tempo para o primeiro semáforo
     PROCESS(pr_state1, tempo_contagem, start)

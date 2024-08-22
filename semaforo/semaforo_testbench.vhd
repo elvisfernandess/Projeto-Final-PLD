@@ -18,6 +18,8 @@ architecture stimulus of semaforo_testbench is
     signal g2      : std_logic;         -- Sinal de saída para o verde do segundo semáforo
     signal counter1 : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
 	signal counter2 : unsigned(7 DOWNTO 0); -- Sinal de contador do tipo unsigned
+	signal event_counter1 : unsigned(7 DOWNTO 0); -- Sinal do contador de eventos do primeiro semáforo
+	signal event_counter2 : unsigned(7 DOWNTO 0); -- Sinal do contador de eventos do segundo semáforo
 
 begin
 
@@ -35,7 +37,9 @@ begin
             g1      => g1,
             g2      => g2,
             counter1 => counter1,
-			counter2 => counter2
+			counter2 => counter2,
+			event_counter1 => event_counter1,
+			event_counter2 => event_counter2
         );
 
     -- Geração do clock de 10 ns (50 MHz)
@@ -69,7 +73,7 @@ begin
 stimulus_process_tempo_contagem : process
 begin
     -- Definir o valor completo de tempo_contagem e dividir para ambos os semáforos
-    tempo_contagem <= "0000000100000010"; -- Exemplo: parte mais significativa para o semáforo 1 e parte menos significativa para o semáforo 2
+    tempo_contagem <= "0000000000000000"; -- Exemplo: parte mais significativa para o semáforo 1 e parte menos significativa para o semáforo 2
 
     --wait for 100 ns;
 

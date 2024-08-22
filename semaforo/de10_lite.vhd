@@ -162,7 +162,7 @@ begin
     -- Instância do DUT 
     dut : entity work.semaforo
         port map(
-            clk     => clk_div,
+            clk	     => clk_div,
             rst     => SW(1),
             start   => SW(0),
             tempo_contagem => tempo_contagem,

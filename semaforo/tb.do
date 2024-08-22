@@ -17,6 +17,8 @@ add wave -radix binary  /start
 add wave -radix binary  /tempo_contagem
 add wave -radix uns  /counter1
 add wave -radix uns  /counter2
+add wave -radix hex  /event_counter1
+add wave -radix hex  /event_counter2
 add wave /dut/pr_state1
 add wave /dut/pr_state2
 add wave -radix binary  /r1
