@@ -15,18 +15,17 @@ ENTITY semaforo IS
         ped_count        : OUT UNSIGNED(7 DOWNTO 0); -- Display para contagem de pedestres
         car_count        : OUT UNSIGNED(7 DOWNTO 0); -- Display para contagem de carros
         time_display     : OUT UNSIGNED(7 DOWNTO 0); -- Display para tempo de cada estado
-		visual_display   : OUT UNSIGNED(7 DOWNTO 0)  -- Display para visualizar os segundos finais de tempo de cada estado
+        visual_display   : OUT UNSIGNED(7 DOWNTO 0)  -- Display para visualizar os segundos finais de tempo de cada estado
     );
 END ENTITY semaforo;
 
 ARCHITECTURE state_machine OF semaforo IS
 
-    TYPE state IS (STARTT,IDLE,RED,YELLOW,GREEN);
+    TYPE state IS (STARTT, IDLE, RED, YELLOW, GREEN);
     SIGNAL pr_state, nx_state : state;
     SIGNAL count              : UNSIGNED(7 DOWNTO 0);
     SIGNAL count_limit        : UNSIGNED(7 DOWNTO 0);
     SIGNAL ped_count_sig, car_count_sig : UNSIGNED(7 DOWNTO 0);
-	
 
 BEGIN
 
@@ -38,46 +37,37 @@ BEGIN
             count    <= (others => '0');
             ped_count_sig <= (others => '0');
             car_count_sig <= (others => '0');
-			--visual_count    <= (others => '0');
+            --visual_count    <= (others => '0');
         ELSIF rising_edge(clk) THEN
-		
             IF count > 0 THEN
-				IF start ='1' then
-                count <= count - 1;
-				
-				ELSE
-				count <= count;
-				END IF;
-				
+                IF start = '1' THEN
+                    count <= count - 1;
+                ELSE
+                    count <= count;
+                END IF;
             ELSE
-				if start ='1' then
-                pr_state <= nx_state;
-				end if;
+                IF start = '1' THEN
+                    pr_state <= nx_state;
+                END IF;
                 count <= count_limit;
             END IF;
-			
-			
-			IF start = '1' THEN
-			            -- Contagem de pedestres apenas no estado RED
-            IF pr_state = RED AND pedestre = '1' THEN
-                ped_count_sig <= ped_count_sig + 1;
-				car_count_sig <= (others => '0');
-            END IF;
 
-            -- Contagem de carros apenas nos estados YELLOW e GREEN
-            IF (pr_state = YELLOW OR pr_state = GREEN) AND carro = '1' THEN
-                car_count_sig <= car_count_sig + 1;
-				ped_count_sig <= (others => '0');
-				
-            END IF;
-			
-			ELSE 
-			ped_count_sig <= ped_count_sig;
-			car_count_sig <= car_count_sig;
-			END IF;
-			
-		
+            IF start = '1' THEN
+                -- Contagem de pedestres apenas no estado RED
+                IF pr_state = RED AND pedestre = '1' THEN
+                    ped_count_sig <= ped_count_sig + 1;
+                    car_count_sig <= (others => '0');
+                END IF;
 
+                -- Contagem de carros apenas nos estados YELLOW e GREEN
+                IF (pr_state = YELLOW OR pr_state = GREEN) AND carro = '1' THEN
+                    car_count_sig <= car_count_sig + 1;
+                    ped_count_sig <= (others => '0');
+                END IF;
+            ELSE
+                ped_count_sig <= ped_count_sig;
+                car_count_sig <= car_count_sig;
+            END IF;
         END IF;
     END PROCESS;
 
@@ -85,8 +75,7 @@ BEGIN
     PROCESS(pr_state, start, pedestre, carro)
     BEGIN
         CASE pr_state IS
-		
-			WHEN STARTT =>
+            WHEN STARTT =>
                 count_limit <= "00000000";  -- Exemplo: 10 ciclos de clock para o estado RED
                 IF start = '1' THEN
                     nx_state <= IDLE;
@@ -94,15 +83,14 @@ BEGIN
                     nx_state <= STARTT;
                 END IF;
                 
-		
-			WHEN IDLE =>
+            WHEN IDLE =>
                 count_limit <= "00001111";  -- Exemplo: 10 ciclos de clock para o estado RED
                 IF start = '1' THEN
                     nx_state <= RED;
                 ELSE
                     nx_state <= IDLE;
                 END IF;
-		
+
             WHEN RED =>
                 count_limit <= "00001111";  -- Exemplo: 10 ciclos de clock para o estado RED
                 IF start = '1' THEN
@@ -110,42 +98,39 @@ BEGIN
                 ELSE
                     nx_state <= RED;
                 END IF;
-                
 
             WHEN YELLOW =>
                 count_limit <= "00001111";  -- Exemplo: 4 ciclos de clock para o estado YELLOW
-				IF start = '1' THEN
-					nx_state <= GREEN;
-				ELSE
+                IF start = '1' THEN
+                    nx_state <= GREEN;
+                ELSE
                     nx_state <= YELLOW;
                 END IF;
-                
 
             WHEN GREEN =>
                 count_limit <= "00001111";  -- Exemplo: 8 ciclos de clock para o estado GREEN
-				IF start = '1' THEN
-					nx_state <= RED;
-				ELSE
+                IF start = '1' THEN
+                    nx_state <= RED;
+                ELSE
                     nx_state <= GREEN;
                 END IF;
-                
         END CASE;
     END PROCESS;
 
     ped_count <= ped_count_sig;
     car_count <= car_count_sig;
     time_display <= count;  -- Display mostra o tempo restante do estado atual
-	
+    --visual_display <= visual_count; -- Display visual do tempo restante
 
     -- Controle das luzes do semáforo baseado no estado atual
     PROCESS(pr_state)
     BEGIN
         CASE pr_state IS
-			WHEN STARTT =>
+            WHEN STARTT =>
                 r1 <= '0';
                 y1 <= '0';
                 g1 <= '0';
-			WHEN IDLE =>
+            WHEN IDLE =>
                 r1 <= '1';
                 y1 <= '1';
                 g1 <= '1';

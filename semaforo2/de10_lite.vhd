@@ -5,200 +5,191 @@
 -- Copyright   : Departamento de Eletrônica, Florianópolis, IFSC
 -- Description : Projeto base DE10-Lite
 -------------------------------------------------------------------
+
 LIBRARY ieee;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
 
 -- Importando o pacote de conversão BCD para 7 segmentos
-use work.bcd_to_7seg_pkg.all;
+USE work.bcd_to_7seg_pkg.all;
 
-entity de10_lite is 
-	port (
-		---------- CLOCK ----------
-		ADC_CLK_10:	in std_logic;
-		MAX10_CLK1_50: in std_logic;
-		MAX10_CLK2_50: in std_logic;
-		
-		----------- SDRAM ------------
-		DRAM_ADDR: out std_logic_vector (12 downto 0);
-		DRAM_BA: out std_logic_vector (1 downto 0);
-		DRAM_CAS_N: out std_logic;
-		DRAM_CKE: out std_logic;
-		DRAM_CLK: out std_logic;
-		DRAM_CS_N: out std_logic;		
-		DRAM_DQ: inout std_logic_vector(15 downto 0);
-		DRAM_LDQM: out std_logic;
-		DRAM_RAS_N: out std_logic;
-		DRAM_UDQM: out std_logic;
-		DRAM_WE_N: out std_logic;
-		
-		----------- SEG7 ------------
-		HEX0: out std_logic_vector(7 downto 0);
-		HEX1: out std_logic_vector(7 downto 0);
-		HEX2: out std_logic_vector(7 downto 0);
-		HEX3: out std_logic_vector(7 downto 0);
-		HEX4: out std_logic_vector(7 downto 0);
-		HEX5: out std_logic_vector(7 downto 0);
+ENTITY de10_lite IS 
+    PORT (
+        ---------- CLOCK ----------
+        ADC_CLK_10:        IN std_logic;
+        MAX10_CLK1_50:     IN std_logic;
+        MAX10_CLK2_50:     IN std_logic;
+        
+        ----------- SDRAM ------------
+        DRAM_ADDR:         OUT std_logic_vector(12 downto 0);
+        DRAM_BA:           OUT std_logic_vector(1 downto 0);
+        DRAM_CAS_N:        OUT std_logic;
+        DRAM_CKE:          OUT std_logic;
+        DRAM_CLK:          OUT std_logic;
+        DRAM_CS_N:         OUT std_logic;
+        DRAM_DQ:           INOUT std_logic_vector(15 downto 0);
+        DRAM_LDQM:         OUT std_logic;
+        DRAM_RAS_N:        OUT std_logic;
+        DRAM_UDQM:         OUT std_logic;
+        DRAM_WE_N:         OUT std_logic;
+        
+        ----------- SEG7 ------------
+        HEX0:              OUT std_logic_vector(7 downto 0);
+        HEX1:              OUT std_logic_vector(7 downto 0);
+        HEX2:              OUT std_logic_vector(7 downto 0);
+        HEX3:              OUT std_logic_vector(7 downto 0);
+        HEX4:              OUT std_logic_vector(7 downto 0);
+        HEX5:              OUT std_logic_vector(7 downto 0);
 
-		----------- KEY ------------
-		KEY: in std_logic_vector(1 downto 0);
+        ----------- KEY ------------
+        KEY:               IN std_logic_vector(1 downto 0);
 
-		----------- LED ------------
-		LEDR: out std_logic_vector(9 downto 0);
+        ----------- LED ------------
+        LEDR:              OUT std_logic_vector(9 downto 0);
 
-		----------- SW ------------
-		SW: in std_logic_vector(9 downto 0);
+        ----------- SW ------------
+        SW:                IN std_logic_vector(9 downto 0);
 
-		----------- VGA ------------
-		VGA_B: out std_logic_vector(3 downto 0);
-		VGA_G: out std_logic_vector(3 downto 0);
-		VGA_HS: out std_logic;
-		VGA_R: out std_logic_vector(3 downto 0);
-		VGA_VS: out std_logic;
-	
-		----------- Accelerometer ------------
-		GSENSOR_CS_N: out std_logic;
-		GSENSOR_INT: in std_logic_vector(2 downto 1);
-		GSENSOR_SCLK: out std_logic;
-		GSENSOR_SDI: inout std_logic;
-		GSENSOR_SDO: inout std_logic;
-	
-		----------- Arduino ------------
-		ARDUINO_IO: inout std_logic_vector(15 downto 0);
-		ARDUINO_RESET_N: inout std_logic
-	);
-end entity;
+        ----------- VGA ------------
+        VGA_B:             OUT std_logic_vector(3 downto 0);
+        VGA_G:             OUT std_logic_vector(3 downto 0);
+        VGA_HS:            OUT std_logic;
+        VGA_R:             OUT std_logic_vector(3 downto 0);
+        VGA_VS:            OUT std_logic;
+    
+        ----------- Accelerometer ------------
+        GSENSOR_CS_N:      OUT std_logic;
+        GSENSOR_INT:       IN std_logic_vector(2 downto 1);
+        GSENSOR_SCLK:      OUT std_logic;
+        GSENSOR_SDI:       INOUT std_logic;
+        GSENSOR_SDO:       INOUT std_logic;
+    
+        ----------- Arduino ------------
+        ARDUINO_IO:        INOUT std_logic_vector(15 downto 0);
+        ARDUINO_RESET_N:   INOUT std_logic
+    );
+END ENTITY;
 
+ARCHITECTURE rtl OF de10_lite IS
 
-architecture rtl of de10_lite is
+    -- Sinais para os semáforos e contadores
+    SIGNAL clk               : std_logic;                  -- Sinal de clock
+    SIGNAL rst               : std_logic;                  -- Sinal de reset
+    SIGNAL start             : std_logic;                  -- Sinal para a chave de start
+    SIGNAL pedestre          : std_logic;                  -- Sinal para a chave para contagem de pedestres
+    SIGNAL carro             : std_logic;                  -- Sinal para a chave para contagem de carros
+    SIGNAL r1               : std_logic;                  -- Sinal de saída para o vermelho do primeiro semáforo
+    SIGNAL y1               : std_logic;                  -- Sinal de saída para o amarelo do primeiro semáforo
+    SIGNAL g1               : std_logic;                  -- Sinal de saída para o verde do primeiro semáforo
+    SIGNAL ped_count        : unsigned(7 DOWNTO 0);      -- Sinal de contador de pedestres 
+    SIGNAL car_count        : unsigned(7 DOWNTO 0);      -- Sinal de contador de carros
+    SIGNAL time_display     : unsigned(7 DOWNTO 0);      -- Sinal de contador de tempo de estados do semáforo
+    
+    SIGNAL clk_div          : std_logic := '0';
+    
+    -- Sinais para os displays de 7 segmentos
+    SIGNAL hex0_data        : std_logic_vector(7 downto 0);
+    SIGNAL hex1_data        : std_logic_vector(7 downto 0);
+    SIGNAL hex2_data        : std_logic_vector(7 downto 0);
+    SIGNAL visual_display   : unsigned(7 DOWNTO 0);      -- Sinal para visualizar os segundos finais de tempo de cada estado
+    SIGNAL hex5_data        : std_logic_vector(7 downto 0);
+    SIGNAL visual_display_test : unsigned(7 downto 0);  -- Inicializa o teste com 0
 
-		-- Sinais para os semáforos e contadores
-		signal clk           : std_logic;					-- Sinal de clock
-		signal rst           : std_logic;					-- Sinal de reset
-		signal start         : std_logic;					-- Sinal para a chave de start
-		signal pedestre      : std_logic;					-- Sinal para a chave para contagem de pedestres
-		signal carro   	   : std_logic;					-- Sinal para a chave para contagem de carros
-		signal r1      	   : std_logic;          		-- Sinal de saída para o vermelho do primeiro semáforo
-		signal y1            : std_logic;          		-- Sinal de saída para o amarelo do primeiro semáforo
-		signal g1            : std_logic;          		-- Sinal de saída para o verde do primeiro semáforo
-		signal ped_count  	: unsigned(7 DOWNTO 0); 	-- Sinal de contador de pedestres 
-		signal car_count  	: unsigned(7 DOWNTO 0); 	-- Sinal de contador de carros
-		signal time_display  : unsigned(7 DOWNTO 0); 	-- Sinal de contador de tempo de estados do semáforo
-		
-		signal clk_div       : std_logic := '0';
-		
-		 -- Sinais para os displays de 7 segmentos
-    signal hex0_data : std_logic_vector(7 downto 0);
-    signal hex1_data : std_logic_vector(7 downto 0);
-    signal hex2_data : std_logic_vector(7 downto 0);
-	 
-	 signal visual_display  : unsigned(7 DOWNTO 0); 	-- Sinal para visualizar os segundos finais de tempo de cada estado
-	 signal hex5_data : std_logic_vector(7 downto 0);
-	 signal visual_display_test : unsigned(7 downto 0); -- Inicializa o teste com 0
+BEGIN
 
-		
-begin
-	
-	 -- Divisor de Clock para gerar um sinal de clock mais lento
-    process(MAX10_CLK1_50)
-        variable counter : integer := 0;
-    begin
-        if rising_edge(MAX10_CLK1_50) then
+    -- Divisor de Clock para gerar um sinal de clock mais lento
+    PROCESS(MAX10_CLK1_50)
+        VARIABLE counter : integer := 0;
+    BEGIN
+        IF rising_edge(MAX10_CLK1_50) THEN
             counter := counter + 1;
-            if counter = 50000000 then 
-                clk_div <= not clk_div;
+            IF counter = 50000000 THEN 
+                clk_div <= NOT clk_div;
                 counter := 0;
-            end if;
-        end if;
-    end process;
+            END IF;
+        END IF;
+    END PROCESS;
 
-	
-	    -- Instância do DUT (Design Under Test)
-    dut : entity work.semaforo
-        port map(
+    -- Instância do DUT (Design Under Test)
+    dut : ENTITY work.semaforo
+        PORT MAP (
             clk          => clk_div,
             rst          => SW(1),
             start        => SW(0),
-				pedestre     => SW(9),
+            pedestre     => SW(9),
             carro        => SW(8),
             r1           => LEDR(2),
             y1           => LEDR(1),
             g1           => LEDR(0),
             ped_count    => ped_count,
-				car_count    => car_count,
-				time_display => time_display,
-				visual_display => visual_display
-				
+            car_count    => car_count,
+            time_display => time_display,
+            visual_display => visual_display
         );
-	
-	 -- Convertendo os valores de contagem para displays de 7 segmentos
-    process(ped_count, car_count, time_display,visual_display)
-    begin
+
+    -- Convertendo os valores de contagem para displays de 7 segmentos
+    PROCESS(ped_count, car_count, time_display, visual_display)
+    BEGIN
         -- Display HEX0 mostra ped_count
         hex0_data <= convert_8bits_to_dual_7seg(std_logic_vector(ped_count))(7 downto 0);
-		  
-		  -- Display HEX1 mostra car_count
+
+        -- Display HEX1 mostra car_count
         hex1_data <= convert_8bits_to_dual_7seg(std_logic_vector(car_count))(7 downto 0);
 
-        -- Display HEX2 mostra a contagem de tempo de cada estadoi do semáforo
+        -- Display HEX2 mostra a contagem de tempo de cada estado do semáforo
         hex2_data <= convert_8bits_to_dual_7seg(std_logic_vector(time_display))(7 downto 0);
-		  
-		  -- Display HEX2 e HEX3 mostram counter2
+
+        -- Display HEX5 mostra visual_display
         hex5_data <= convert_8bits_to_dual_7seg(std_logic_vector(visual_display))(7 downto 0);
-        
-    end process;
-	
- -- Atribuindo os valores convertidos aos displays
+    END PROCESS;
+
+    -- Atribuindo os valores convertidos aos displays
     HEX0 <= hex0_data;
     HEX1 <= hex1_data;
     HEX2 <= hex2_data;
-	 HEX3 <= "11111111"; --(dp,g,f,e,d,c,b,a) apagados
-	 HEX4 <= "11111111"; --(dp,g,f,e,d,c,b,a) apagados
-	 --HEX5 <= "10000000"; --(dp) apagado
-	 --HEX5 <= "11000000"; --(dp,g) apagados
-	 --HEX5 <= "11100000"; --(dp,g,f) apagados
-	 --HEX5 <= "11110000"; --(dp,g,f,e) apagados
-	 --HEX5 <= "11111000"; --(dp,g,f,e,d) apagados
-	 --HEX5 <= "11111100"; --(dp,g,f,e,d,c) apagados
-	 --HEX5 <= "11111110"; --(dp,g,f,e,d,c,b) apagados
-	 --HEX5 <= "11111111"; --(dp,g,f,e,d,c,b,a) apagados
-	 
+    HEX3 <= "11111111";  -- (dp,g,f,e,d,c,b,a) apagados
+    HEX4 <= "11111111";  -- (dp,g,f,e,d,c,b,a) apagados
+    --HEX5 <= "10000000"; -- (dp) apagado
+    --HEX5 <= "11000000"; -- (dp,g) apagados
+    --HEX5 <= "11100000"; -- (dp,g,f) apagados
+    --HEX5 <= "11110000"; -- (dp,g,f,e) apagados
+    --HEX5 <= "11111000"; -- (dp,g,f,e,d) apagados
+    --HEX5 <= "11111100"; -- (dp,g,f,e,d,c) apagados
+    --HEX5 <= "11111110"; -- (dp,g,f,e,d,c,b) apagados
+    --HEX5 <= "11111111"; -- (dp,g,f,e,d,c,b,a) apagados
 
-process(clk_div)
-begin
-    if rising_edge(clk_div) then
-        visual_display_test <= time_display;
-    end if;
-end process;
+    PROCESS(clk_div)
+    BEGIN
+        IF rising_edge(clk_div) THEN
+            visual_display_test <= time_display;
+        END IF;
+    END PROCESS;
 
--- Processo para controlar o display HEX5 com base no valor de visual_display_test
-process(visual_display_test)
-begin
-    case to_integer(unsigned(visual_display_test)) is
-        when 8 =>
-            HEX5 <= "00000000"; -- Todos segmentos acesos (para um visual "9")
-        when 7 =>
-            HEX5 <= "10000000"; -- Segmentos dp apagado
-        when 6 =>
-            HEX5 <= "11000000"; -- Segmentos dp e g apagados
-        when 5 =>
-            HEX5 <= "11100000"; -- Segmentos g,c apagados
-        when 4 =>
-            HEX5 <= "11110000"; -- Segmentos e apagados
-        when 3 =>
-            HEX5 <= "11111000"; -- Segmentos d apagados
-        when 2 =>
-            HEX5 <= "11111100"; -- Segmentos c apagados
-        when 1 =>
-            HEX5 <= "11111110"; -- Segmentos b apagados
-        when 0 =>
-            HEX5 <= "11111111"; -- Todos segmentos apagados (para um visual "0")
-        when others =>
-            HEX5 <= "00000000"; -- Todos segmentos acesos (default para "8")
-    end case;
-end process;
-	 
-	
-	
-end;
+    -- Processo para controlar o display HEX5 com base no valor de visual_display_test
+    PROCESS(visual_display_test)
+    BEGIN
+        CASE to_integer(unsigned(visual_display_test)) IS
+            WHEN 8 =>
+                HEX5 <= "00000000"; -- Todos segmentos acesos (para um visual "9")
+            WHEN 7 =>
+                HEX5 <= "10000000"; -- Segmentos dp apagado
+            WHEN 6 =>
+                HEX5 <= "11000000"; -- Segmentos dp e g apagados
+            WHEN 5 =>
+                HEX5 <= "11100000"; -- Segmentos g e c apagados
+            WHEN 4 =>
+                HEX5 <= "11110000"; -- Segmentos e apagados
+            WHEN 3 =>
+                HEX5 <= "11111000"; -- Segmentos d apagados
+            WHEN 2 =>
+                HEX5 <= "11111100"; -- Segmentos c apagados
+            WHEN 1 =>
+                HEX5 <= "11111110"; -- Segmentos b apagados
+            WHEN 0 =>
+                HEX5 <= "11111111"; -- Todos segmentos apagados (para um visual "0")
+            WHEN OTHERS =>
+                HEX5 <= "00000000"; -- Todos segmentos acesos (default para "8")
+        END CASE;
+    END PROCESS;
 
+END ARCHITECTURE;
