@@ -6,34 +6,37 @@ entity semaforo_testbench is
 end entity semaforo_testbench;
 
 architecture stimulus of semaforo_testbench is
-    signal clk           : std_logic;				-- Sinal de clock
-    signal rst           : std_logic;				-- Sinal de reset
-    signal start         : std_logic;				-- Sinal para a chave de start
-	signal pedestre      : std_logic;				-- Sinal para a chave para contagem de pedestres
-	signal carro   	     : std_logic;				-- Sinal para a chave para contagem de carros
-	signal r1      	     : std_logic;          		-- Sinal de saída para o vermelho do primeiro semáforo
-    signal y1            : std_logic;          		-- Sinal de saída para o amarelo do primeiro semáforo
-    signal g1            : std_logic;          		-- Sinal de saída para o verde do primeiro semáforo
-    signal ped_count  	 : unsigned(7 DOWNTO 0); 	-- Sinal de contador de pedestres 
-	signal car_count  	 : unsigned(7 DOWNTO 0); 	-- Sinal de contador de carros
-	signal time_display  : unsigned(7 DOWNTO 0); 	-- Sinal de contador de tempo de estados do semáforo
+    signal clk             : std_logic;				-- Sinal de clock
+    signal rst             : std_logic;				-- Sinal de reset
+    signal start           : std_logic;				-- Sinal para a chave de start
+	signal pedestre        : std_logic;				-- Sinal para a chave para contagem de pedestres
+	signal carro   	       : std_logic;				-- Sinal para a chave para contagem de carros
+	signal r1      	       : std_logic;          		-- Sinal de saída para o vermelho do primeiro semáforo
+    signal y1              : std_logic;          		-- Sinal de saída para o amarelo do primeiro semáforo
+    signal g1              : std_logic;          		-- Sinal de saída para o verde do primeiro semáforo
+    signal ped_count  	   : unsigned(7 DOWNTO 0); 	-- Sinal de contador de pedestres 
+	signal car_count  	   : unsigned(7 DOWNTO 0); 	-- Sinal de contador de carros
+	signal time_display    : unsigned(7 DOWNTO 0); 	-- Sinal de contador de tempo de estados do semáforo
+	signal visual_display  : unsigned(7 DOWNTO 0); 	-- Sinal para visualizar os segundos finais de tempo de cada estado
+	
 
 begin
 
     -- Instância do DUT (Design Under Test)
     dut : entity work.semaforo
         port map(
-            clk          => clk,
-            rst          => rst,
-            start        => start,
-			pedestre     => pedestre,
-            carro        => carro,
-            r1           => r1,
-            y1           => y1,
-            g1           => g1,
-            ped_count    => ped_count,
-			car_count    => car_count,
-			time_display => time_display
+            clk            => clk,
+            rst            => rst,
+            start          => start,
+			pedestre       => pedestre,
+            carro          => carro,
+            r1             => r1,
+            y1             => y1,
+            g1             => g1,
+            ped_count      => ped_count,
+			car_count      => car_count,
+			time_display   => time_display,
+			visual_display => visual_display
         );
 
     -- Geração do clock de 10 ns (50 MHz)

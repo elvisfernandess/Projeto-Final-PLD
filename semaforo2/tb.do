@@ -22,6 +22,7 @@ add wave -radix binary  /g1
 add wave -radix uns  /ped_count
 add wave -radix uns  /car_count
 add wave -radix uns  /time_display
+#add wave -radix uns  /visual_display
 add wave /dut/pr_state
 
 

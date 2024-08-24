@@ -91,6 +91,11 @@ architecture rtl of de10_lite is
     signal hex0_data : std_logic_vector(7 downto 0);
     signal hex1_data : std_logic_vector(7 downto 0);
     signal hex2_data : std_logic_vector(7 downto 0);
+	 
+	 signal visual_display  : unsigned(7 DOWNTO 0); 	-- Sinal para visualizar os segundos finais de tempo de cada estado
+	 signal hex5_data : std_logic_vector(7 downto 0);
+	 signal visual_display_test : unsigned(7 downto 0); -- Inicializa o teste com 0
+
 		
 begin
 	
@@ -121,20 +126,25 @@ begin
             g1           => LEDR(0),
             ped_count    => ped_count,
 				car_count    => car_count,
-				time_display => time_display
+				time_display => time_display,
+				visual_display => visual_display
+				
         );
 	
 	 -- Convertendo os valores de contagem para displays de 7 segmentos
-    process(ped_count, car_count, time_display)
+    process(ped_count, car_count, time_display,visual_display)
     begin
-        -- Display HEX0 mostram ped_count
+        -- Display HEX0 mostra ped_count
         hex0_data <= convert_8bits_to_dual_7seg(std_logic_vector(ped_count))(7 downto 0);
 		  
-		  -- Display HEX0 mostram car_count
+		  -- Display HEX1 mostra car_count
         hex1_data <= convert_8bits_to_dual_7seg(std_logic_vector(car_count))(7 downto 0);
 
-        -- Display HEX2 e HEX3 mostram counter2
+        -- Display HEX2 mostra a contagem de tempo de cada estadoi do semáforo
         hex2_data <= convert_8bits_to_dual_7seg(std_logic_vector(time_display))(7 downto 0);
+		  
+		  -- Display HEX2 e HEX3 mostram counter2
+        hex5_data <= convert_8bits_to_dual_7seg(std_logic_vector(visual_display))(7 downto 0);
         
     end process;
 	
@@ -142,6 +152,52 @@ begin
     HEX0 <= hex0_data;
     HEX1 <= hex1_data;
     HEX2 <= hex2_data;
+	 HEX3 <= "11111111"; --(dp,g,f,e,d,c,b,a) apagados
+	 HEX4 <= "11111111"; --(dp,g,f,e,d,c,b,a) apagados
+	 --HEX5 <= "10000000"; --(dp) apagado
+	 --HEX5 <= "11000000"; --(dp,g) apagados
+	 --HEX5 <= "11100000"; --(dp,g,f) apagados
+	 --HEX5 <= "11110000"; --(dp,g,f,e) apagados
+	 --HEX5 <= "11111000"; --(dp,g,f,e,d) apagados
+	 --HEX5 <= "11111100"; --(dp,g,f,e,d,c) apagados
+	 --HEX5 <= "11111110"; --(dp,g,f,e,d,c,b) apagados
+	 --HEX5 <= "11111111"; --(dp,g,f,e,d,c,b,a) apagados
+	 
+
+process(clk_div)
+begin
+    if rising_edge(clk_div) then
+        visual_display_test <= time_display;
+    end if;
+end process;
+
+-- Processo para controlar o display HEX5 com base no valor de visual_display_test
+process(visual_display_test)
+begin
+    case to_integer(unsigned(visual_display_test)) is
+        when 8 =>
+            HEX5 <= "00000000"; -- Todos segmentos acesos (para um visual "9")
+        when 7 =>
+            HEX5 <= "10000000"; -- Segmentos dp apagado
+        when 6 =>
+            HEX5 <= "11000000"; -- Segmentos dp e g apagados
+        when 5 =>
+            HEX5 <= "11100000"; -- Segmentos g,c apagados
+        when 4 =>
+            HEX5 <= "11110000"; -- Segmentos e apagados
+        when 3 =>
+            HEX5 <= "11111000"; -- Segmentos d apagados
+        when 2 =>
+            HEX5 <= "11111100"; -- Segmentos c apagados
+        when 1 =>
+            HEX5 <= "11111110"; -- Segmentos b apagados
+        when 0 =>
+            HEX5 <= "11111111"; -- Todos segmentos apagados (para um visual "0")
+        when others =>
+            HEX5 <= "00000000"; -- Todos segmentos acesos (default para "8")
+    end case;
+end process;
+	 
 	
 	
 end;
