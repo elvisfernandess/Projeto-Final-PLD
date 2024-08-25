@@ -148,7 +148,7 @@ BEGIN
     HEX1 <= hex1_data;
     HEX2 <= hex2_data;
     HEX3 <= "11111111";  -- (dp,g,f,e,d,c,b,a) apagados
-    HEX4 <= "11111111";  -- (dp,g,f,e,d,c,b,a) apagados
+    --HEX4 <= "11111111";  -- (dp,g,f,e,d,c,b,a) apagados
     --HEX5 <= "10000000"; -- (dp) apagado
     --HEX5 <= "11000000"; -- (dp,g) apagados
     --HEX5 <= "11100000"; -- (dp,g,f) apagados
@@ -169,8 +169,25 @@ BEGIN
     PROCESS(visual_display_test)
     BEGIN
         CASE to_integer(unsigned(visual_display_test)) IS
+				
+				WHEN 16 =>
+                HEX4 <= "00000000"; -- Todos segmentos acesos (para um visual "15")
+				WHEN 15 =>
+                HEX4 <= "10000000"; -- Todos segmentos acesos (para um visual "15")
+				WHEN 14 =>
+                HEX4 <= "11000000"; -- Todos segmentos acesos (para um visual "14")
+				WHEN 13 =>
+                HEX4 <= "11100000"; -- Todos segmentos acesos (para um visual "13")
+				WHEN 12 =>
+                HEX4 <= "11110000"; -- Todos segmentos acesos (para um visual "12")
+				WHEN 11 =>
+                HEX4 <= "11111000"; -- Todos segmentos acesos (para um visual "11")
+				WHEN 10 =>
+                HEX4 <= "11111100"; -- Todos segmentos acesos (para um visual "10")
+				WHEN 9 =>
+                HEX4 <= "11111110"; -- Todos segmentos acesos (para um visual "9")
             WHEN 8 =>
-                HEX5 <= "00000000"; -- Todos segmentos acesos (para um visual "9")
+                HEX5 <= "00000000"; -- Todos segmentos acesos (para um visual "8")
             WHEN 7 =>
                 HEX5 <= "10000000"; -- Segmentos dp apagado
             WHEN 6 =>
@@ -188,7 +205,9 @@ BEGIN
             WHEN 0 =>
                 HEX5 <= "11111111"; -- Todos segmentos apagados (para um visual "0")
             WHEN OTHERS =>
-                HEX5 <= "00000000"; -- Todos segmentos acesos (default para "8")
+                HEX4 <= "11111111"; -- Todos segmentos acesos (default para "8")
+					 HEX5 <= "00000000"; -- Todos segmentos acesos (default para "8")
+
         END CASE;
     END PROCESS;
 

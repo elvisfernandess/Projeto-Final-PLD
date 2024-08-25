@@ -11,18 +11,18 @@ architecture stimulus of semaforo_testbench is
     signal start           : std_logic;				-- Sinal para a chave de start
 	signal pedestre        : std_logic;				-- Sinal para a chave para contagem de pedestres
 	signal carro   	       : std_logic;				-- Sinal para a chave para contagem de carros
-	signal r1      	       : std_logic;          		-- Sinal de saída para o vermelho do primeiro semáforo
-    signal y1              : std_logic;          		-- Sinal de saída para o amarelo do primeiro semáforo
-    signal g1              : std_logic;          		-- Sinal de saída para o verde do primeiro semáforo
+	signal r1      	       : std_logic;          	-- Sinal de saída para o vermelho do primeiro semáforo
+    signal y1              : std_logic;          	-- Sinal de saída para o amarelo do primeiro semáforo
+    signal g1              : std_logic;          	-- Sinal de saída para o verde do primeiro semáforo
     signal ped_count  	   : unsigned(7 DOWNTO 0); 	-- Sinal de contador de pedestres 
 	signal car_count  	   : unsigned(7 DOWNTO 0); 	-- Sinal de contador de carros
-	signal time_display    : unsigned(7 DOWNTO 0); 	-- Sinal de contador de tempo de estados do semáforo
+	signal time_display    : unsigned(7 DOWNTO 0); -- Sinal de contador de tempo de estados do semáforo
 	signal visual_display  : unsigned(7 DOWNTO 0); 	-- Sinal para visualizar os segundos finais de tempo de cada estado
 	
 
 begin
 
-    -- Instância do DUT (Design Under Test)
+    -- Instância do DUT do semaforo
     dut : entity work.semaforo
         port map(
             clk            => clk,

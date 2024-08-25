@@ -32,13 +32,16 @@ BEGIN
     -- Processo de transição de estados e contagem
     PROCESS(rst, clk)
     BEGIN
+	
         IF rst = '1' THEN
             pr_state <= STARTT;
             count    <= (others => '0');
             ped_count_sig <= (others => '0');
             car_count_sig <= (others => '0');
-            --visual_count    <= (others => '0');
+           
+			
         ELSIF rising_edge(clk) THEN
+		
             IF count > 0 THEN
                 IF start = '1' THEN
                     count <= count - 1;
@@ -75,16 +78,20 @@ BEGIN
     PROCESS(pr_state, start, pedestre, carro)
     BEGIN
         CASE pr_state IS
+			
+			--Estado STARTT criado com valor 0, para que ele vá para o estado IDLE imediatamente, garantindo com que o estado RED assuma o valor do estado IDLE
             WHEN STARTT =>
-                count_limit <= "00000000";  -- Exemplo: 10 ciclos de clock para o estado RED
+                count_limit <= "00000000";  -- Exemplo: 0 ciclos de clock para o estado STARTT
                 IF start = '1' THEN
                     nx_state <= IDLE;
                 ELSE
                     nx_state <= STARTT;
                 END IF;
-                
+            
+			--Estado IDLE para garantir a contagem total do estado RED.
+			--Sem o estado IDLE, o estado RED estava utilizando a mesma contagem de tempo IDLE
             WHEN IDLE =>
-                count_limit <= "00001111";  -- Exemplo: 10 ciclos de clock para o estado RED
+                count_limit <= "00001111";  -- Exemplo: 15 ciclos de clock para garantir o tempo do estado RED
                 IF start = '1' THEN
                     nx_state <= RED;
                 ELSE
@@ -92,7 +99,7 @@ BEGIN
                 END IF;
 
             WHEN RED =>
-                count_limit <= "00001111";  -- Exemplo: 10 ciclos de clock para o estado RED
+                count_limit <= "00001111";  -- Exemplo: 15 ciclos de clock para o estado RED
                 IF start = '1' THEN
                     nx_state <= YELLOW;
                 ELSE
@@ -100,7 +107,7 @@ BEGIN
                 END IF;
 
             WHEN YELLOW =>
-                count_limit <= "00001111";  -- Exemplo: 4 ciclos de clock para o estado YELLOW
+                count_limit <= "00001111";  -- Exemplo: 15 ciclos de clock para o estado YELLOW
                 IF start = '1' THEN
                     nx_state <= GREEN;
                 ELSE
@@ -108,7 +115,7 @@ BEGIN
                 END IF;
 
             WHEN GREEN =>
-                count_limit <= "00001111";  -- Exemplo: 8 ciclos de clock para o estado GREEN
+                count_limit <= "00001111";  -- Exemplo: 15 ciclos de clock para o estado GREEN
                 IF start = '1' THEN
                     nx_state <= RED;
                 ELSE
@@ -120,7 +127,7 @@ BEGIN
     ped_count <= ped_count_sig;
     car_count <= car_count_sig;
     time_display <= count;  -- Display mostra o tempo restante do estado atual
-    --visual_display <= visual_count; -- Display visual do tempo restante
+    
 
     -- Controle das luzes do semáforo baseado no estado atual
     PROCESS(pr_state)
