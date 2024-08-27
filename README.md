@@ -63,12 +63,11 @@
 
 **Displays**
 
- - HEX0 -->
- - HEX1 -->
- - HEX2 -->
- - HEX3 --> Não utilizado.
- - HEX0 -->
-
+ - HEX0 --> ped_count.
+ - HEX1 --> car_count.
+ - HEX2 --> time_display.
+ - HEX4 --> segmentos de time_display (15 a 8).
+ - HEX5 --> segmentos de time_display (7 a 0).
 
 
 
