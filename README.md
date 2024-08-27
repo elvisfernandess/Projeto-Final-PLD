@@ -1,14 +1,14 @@
 # SEMÁFORO
-## ESPECIFICAÇÕES
+## 1 ESPECIFICAÇÕES
 
-### PORTAS DE ENTRADA
+### 1.1 PORTAS DE ENTRADA
  - clk: Porta de entrada (interno) do tipo std_logic responsável pelo clock. 
  - rst: Porta de entrada (interno) do tipo std_logic responsável pelo rst. 
  - start: Porta de entrada (chave) do tipo std_logic responsável por iniciar o sistema. 
  - carro: Porta de entrada (chave) do tipo std_logic responsável pela contagem de carros. 
  - pedestre: Porta de entrada (chave) do tipo std_logic responsável pela contagem de pessoas. 
 
-### PORTAS DE SAÍDA
+### 1.2 PORTAS DE SAÍDA
  - r1: Porta de saída (LED) do tipo std_logic responsável sinal vermelho do semáforo.
  - y1: Porta de saída (LED) do tipo std_logic responsável sinal amarelo do semáforo.
  - g1: Porta de saída (LED) do tipo std_logic responsável sinal verde do semáforo.
@@ -18,7 +18,7 @@
  - visual_display: Porta de saída (DISPLAY 7 SEGMENTOS) do tipo unsigned responsável visualizar os segmentos.
 
 
-### ESTADOS
+### 1.3 ESTADOS
 
 **RED**
  - Deve ser contabilizado o tempo do estado e mostrado no display;
