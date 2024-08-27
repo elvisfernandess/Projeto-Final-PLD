@@ -75,7 +75,7 @@
  - 2) Gravar na placa;
  - 3) Colocar rst em nivel ALTO;
  - 4) Colocar rst em nivel BAIXO;
- - Colocar start em nivel ALTO;
+ - 5) Colocar start em nivel ALTO;
 
    **No primeiro ciclo da máquina de estados**
  - Estado STARTT iniciado.  LEDR (0), LEDR (1) e LED (2) acesos; tempo 0 segundos.
