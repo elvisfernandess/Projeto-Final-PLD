@@ -50,6 +50,27 @@
 
 ## 2 PINAGEM
 
+**Leds**
+LEDR (0) --> r1
+LEDR (1) --> y1
+LEDR (2) --> g1
+
+**Chaves**
+SW(0) --> start
+SW(1) --> rst
+SW(8) --> carro
+SW(9) --> pedestre
+
+**Displays**
+
+HEX0 -->
+HEX1 -->
+HEX2 -->
+HEX3 --> Não utilizado.
+HEX0 -->
+
+
+
 
 
 
