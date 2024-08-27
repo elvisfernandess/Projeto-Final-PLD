@@ -69,8 +69,24 @@
  - HEX4 --> segmentos de time_display (15 a 8).
  - HEX5 --> segmentos de time_display (7 a 0).
 
+## 3 FUNCIONAMENTO
 
+ - Simular no modelsim;
+ - Gravar na placa;
+ - Colocar rst em nivel ALTO;
+ - Colocar rst em nivel BAIXO;
+ - Colocar start em nivel ALTO;
 
+   **No primeiro ciclo da máquina de estados**
+ - Estado STARTT iniciado.  LEDR (0), LEDR (1) e LED (2) acesos; tempo 0 segundos.
+ - Estado IDLE iniciado.  Apenas LEDR (2) aceso; tempo estabelecido pelo estado RED; tempo 15 segundos.
+ - ESTADO YELLOW inicado. Apenas LEDR (1) aceso; tempo estabelecido pelo estado YELLOW; tempo 15 segundos.
+ - ESTADO GREEN inicado. Apenas LEDR (0) aceso; tempo estabelecido pelo estado GREEN; tempo 15 segundos.
+
+   **No segundo ciclo da máquina de estados**
+   - Estado RED iniciado.  Apenas LEDR (2) aceso; tempo estabelecido pelo estado RED; tempo 15 segundos.
+   - Estado YELLOW iniciado.  Apenas LEDR (1) aceso; tempo estabelecido pelo estado YELLOW; tempo 15 segundos.
+   - Estado GREEN iniciado.  Apenas LEDR (0) aceso; tempo estabelecido pelo estado GREEN; tempo 15 segundos.
 
 
 
