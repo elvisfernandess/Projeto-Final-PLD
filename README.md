@@ -20,6 +20,13 @@
 
 ### 1.3 ESTADOS
 
+**STARTT**
+ - Estado STARTT criado com valor 0, para que ele vá para o estado IDLE imediatamente, garantindo com que o estado RED assuma o valor do estado IDLE;
+
+**START**
+ - Estado IDLE para garantir a contagem total do estado RED.
+ - Sem o estado IDLE, o estado RED utiliza a mesma contagem de tempo IDLE
+
 **RED**
  - Deve ser contabilizado o tempo do estado e mostrado no display;
  - Deve ser contabilizado quantas pessoas atravessam e mostrado no display (utilizar uma chave);
