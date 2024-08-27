@@ -2,11 +2,11 @@
 ## ESPECIFICAÇÕES
 
 ### PORTAS DE ENTRADA
-clk:      Porta de entrada do tipo std_logic responsável pelo clock. \**
-rst:      Porta de entrada do tipo std_logic responsável pelo rst. \**
-start:    Porta de entrada do tipo std_logic responsável por iniciar o sistema. \**
-carro:    Porta de entrada do tipo std_logic responsável pela contagem de carros. \**
-pedestre: Porta de entrada do tipo std_logic responsável pela contagem de pessoas. \**
+clk:      Porta de entrada do tipo std_logic responsável pelo clock;
+rst:      Porta de entrada do tipo std_logic responsável pelo rst;
+start:    Porta de entrada do tipo std_logic responsável por iniciar o sistema;
+carro:    Porta de entrada do tipo std_logic responsável pela contagem de carros;
+pedestre: Porta de entrada do tipo std_logic responsável pela contagem de pessoas;
 
 
 
