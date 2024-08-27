@@ -71,10 +71,10 @@
 
 ## 3 FUNCIONAMENTO
 
- - Simular no modelsim;
- - Gravar na placa;
- - Colocar rst em nivel ALTO;
- - Colocar rst em nivel BAIXO;
+ - 1) Simular no modelsim;
+ - 2) Gravar na placa;
+ - 3) Colocar rst em nivel ALTO;
+ - 4) Colocar rst em nivel BAIXO;
  - Colocar start em nivel ALTO;
 
    **No primeiro ciclo da máquina de estados**
