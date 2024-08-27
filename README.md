@@ -9,7 +9,7 @@
  - pedestre: Porta de entrada do tipo std_logic responsável pela contagem de pessoas. 
 
 ### PORTAS DE SAÍDA
- - r1:       Porta de entrada do tipo std_logic responsável pelo clock.
+ - r1:             Porta de saída do tipo std_logic responsável sinal vermelho do semáforo
  - y1
  - g1
  - ped_count
