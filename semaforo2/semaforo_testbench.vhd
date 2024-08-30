@@ -1,3 +1,33 @@
+-------------------------------------------------------------------
+-- Name        : semaforo_testbench.vhd
+-- Author      : Elvis Fernandes
+-- Version     : 0.1
+-- Copyright   : Departamento de Eletrônica, Florianópolis, IFSC
+-- Description : Projeto Final: Semáforo
+-- Date        : 30/08/2024
+-------------------------------------------------------------------
+--Esse testbench deve instanciar a entidade semáforo, deve possuir os seguintes processos bem como os sinais a serem visualizados no software modelsim:
+--Processo de clock: realiza o estímulo do sinal de clock
+--Processo de reset: realiza o estímulo do sinal de reset
+--Processo de start: realiza o estímulo do sinal de start
+--Processo de pedestre: realiza o estímulo do sinal de pedestre
+--Processo de carro: realiza o estímulo do sinal de carro
+-------------------------------------------------------------------
+--Sinais a serem visualizados no software modelsim
+--clk: sinal de clock
+--rst: sinal de reset
+--start: sinal de inicio do semáforo
+--pedestre: sinal de início de contagem de pedestre
+--carro: sinal de início de contagem de pedestre
+--r1: sinal do estado red
+--y1: sinal do estado yellow
+--g1: sinal do estado green
+--ped_count: sinal do número de pedestres contabilizados a ser exibido no no display
+--car_count: sinal do número de carros contabilizados a ser exibido no no display
+--time_display: sinal de tempo de cada estado do semáforo a ser exibido no display
+--visual_display: sinal de segmento de tempo de cada estado do semáforo a ser exibido em cada display
+-------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;

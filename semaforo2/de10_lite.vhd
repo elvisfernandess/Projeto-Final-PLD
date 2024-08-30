@@ -1,9 +1,10 @@
 -------------------------------------------------------------------
--- Name        : de0_lite.vhd
--- Author      : 
+-- Name        : de_10_lite.vhd
+-- Author      : Elvis Fernandes
 -- Version     : 0.1
 -- Copyright   : Departamento de Eletrônica, Florianópolis, IFSC
--- Description : Projeto base DE10-Lite
+-- Description : Projeto Final: síntese semáforo
+-- Date        : 30/08/2024
 -------------------------------------------------------------------
 
 LIBRARY ieee;

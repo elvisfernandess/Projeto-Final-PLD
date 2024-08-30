@@ -1,12 +1,43 @@
+-------------------------------------------------------------------
+-- Name        : semaforo.vhd
+-- Author      : Elvis Fernandes
+-- Version     : 0.1
+-- Copyright   : Departamento de Eletrônica, Florianópolis, IFSC
+-- Description : Projeto Final: Semáforo
+-- Date        : 30/08/2024
+-------------------------------------------------------------------
+--Esta tarefa envolve a criação de um semáforo em VHDL baseada em máquina de estados com os seguintes objetivos:
+--Controle dos estados luzes de um semáforo (Red, Yellow e Green);
+--Contagem do número de pedestres (apenas no estado Red);
+--Contagem do número de carros (apenas nos estados Yellow e Green);
+--Exibição das luzes do semáforo, da contagem dos pedestres e carros, do tempo de cada semáforo
+-------------------------------------------------------------------
+--Pinos de entrada
+--clk: sinal de clock.
+--rst: sinal de reset.
+--start: sinal que sinaliza o início do semáforo. O semáforo é iniciado quando start é nível alto.
+--pedestre: sinal que sinaliza o início da contagem de pedestres. O início da contagem é iniciado quando pedestre é nível alto. Se for nível baixo a contagem não deve ser iniciado/contabilizada.
+--carro: sinal que sinaliza o início da contagem de carros. O início da contagem é iniciado quando pedestre é nível alto. Se for nível baixo a contagem não deve ser iniciado/contabilizada.
+-------------------------------------------------------------------
+--Pinos de saída
+--r1: sinal que sinaliza o estado red do semáforo
+--y1: sinal que sinaliza o estado yellow do semáforo
+--g1: sinal que sinaliza o estado green do semáforo
+--ped_count: dado de 8 bits que sinaliza a contagem de pedestres
+--car_count: dado de 8 bits que sinaliza a contagem de carros
+--time_display: dado de 8 bits que sinaliza o tempo do semáforo. A contagem vai de F até 0
+--visual_display: dado de 8 bits que sinaliza os segmentos de tempo de cada semáforo. Para cada número do tempo de semáforo é apagado um segmento do display. Deve ter 1 display para  o tempo de F até 9, e um display de 8 até 0.
+-------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 ENTITY semaforo IS
     PORT(
-        clk              : IN  std_logic;
-        rst              : IN  std_logic;
-        start            : IN  std_logic;
+        clk              : IN  std_logic;  -- Sinal de clock
+        rst              : IN  std_logic;  -- Sinal de reset
+        start            : IN  std_logic;  -- 
         pedestre         : IN  std_logic;  -- Chave para contagem de pedestres
         carro            : IN  std_logic;  -- Chave para contagem de carros
         r1               : OUT std_logic;  -- Sinal vermelho do semáforo
@@ -15,7 +46,7 @@ ENTITY semaforo IS
         ped_count        : OUT UNSIGNED(7 DOWNTO 0); -- Display para contagem de pedestres
         car_count        : OUT UNSIGNED(7 DOWNTO 0); -- Display para contagem de carros
         time_display     : OUT UNSIGNED(7 DOWNTO 0); -- Display para tempo de cada estado
-        visual_display   : OUT UNSIGNED(7 DOWNTO 0)  -- Display para visualizar os segundos finais de tempo de cada estado
+        visual_display   : OUT UNSIGNED(7 DOWNTO 0)  -- Display para visualizar os segmentos do tempo de cada estado
     );
 END ENTITY semaforo;
 
