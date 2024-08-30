@@ -1,6 +1,13 @@
 # SEMÁFORO
 ## 1 ESPECIFICAÇÕES
 
+--Esta tarefa envolve a criação de um semáforo em VHDL baseada em máquina de estados com os seguintes objetivos:
+--Controle dos estados luzes de um semáforo (Red, Yellow e Green);
+--Contagem do número de pedestres (apenas no estado Red);
+--Contagem do número de carros (apenas nos estados Yellow e Green);
+--Exibição das luzes do semáforo, da contagem dos pedestres e carros, do tempo de cada semáforo
+-------------------------------------------------------------------
+
 ### 1.1 PORTAS DE ENTRADA
  - clk: Porta de entrada (interno) do tipo std_logic responsável pelo clock. 
  - rst: Porta de entrada (interno) do tipo std_logic responsável pelo rst. 
