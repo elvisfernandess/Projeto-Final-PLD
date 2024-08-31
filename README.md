@@ -98,6 +98,8 @@
  - 2) cd C:/Users/elvis/OneDrive/Documentos/projeto_final/riscv-multicycle-master/riscv-multicycle-master/peripherals/semaforo2
  - 3) do tb.do
  - 4) Imagem da simulação
+
+ ![Logo do Projeto](images/modelsim.png)
   
 ## 5 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
