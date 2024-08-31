@@ -112,11 +112,13 @@ A partir do segundo ciclo da máquina de estados.
   Adicionar: 
   - semaforo.vhd
   - BCD_to_7seg_display.vhd
-  - bcd_to_7seg_pkg
+  - bcd_to_7seg_pkg.vhd
 
 ![Sintese](semaforo2/sintese.png)
               
-
+- 3) Tools >> Programmer >> Start
+ 
+ ![Sintese](semaforo2/programmer.png)
 
 
 
