@@ -30,7 +30,7 @@
 
 **IDLE**
  - Estado IDLE para garantir a contagem total do estado RED.
- - Sem o estado IDLE, o estado RED utiliza a mesma contagem de tempo IDLE
+ - Sem o estado IDLE, o estado RED utiliza a mesma contagem de tempo IDLE No primeiro ciclo da máquina de estados.
 
 **RED**
  - Deve ser contabilizado o tempo do estado e mostrado no display;
