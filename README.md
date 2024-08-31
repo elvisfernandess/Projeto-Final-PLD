@@ -1,5 +1,5 @@
 # SEMÁFORO
-### Esta tarefa envolve a criação de um semáforo em VHDL baseada em máquina de estados com os seguintes objetivos:
+### Esta tarefa envolve a criação de um semáforo em VHDL baseada em máquina de estados com os seguintes funcionalidades:
 - Controle dos estados luzes de um semáforo (Red, Yellow e Green);
 - Contagem do número de pedestres (apenas no estado Red);
 - Contagem do número de carros (apenas nos estados Yellow e Green);
