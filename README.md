@@ -107,7 +107,7 @@ A partir do segundo ciclo da máquina de estados.
   
 ## 5 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
- - 2) Assignments >> Settings... >> ...
+ - 2) Assignments >> Settings... >> ... >> Apply >> OK
 
   Adicionar: 
   - semaforo.vhd
