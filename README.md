@@ -107,7 +107,15 @@ A partir do segundo ciclo da máquina de estados.
   
 ## 5 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
- - 2) Adicionar
+ - 2) Assignments >> Settings... >> ...
+
+  Adicionar: 
+  - semaforo.vhd
+  - BCD_to_7seg_display.vhd
+  - bcd_to_7seg_pkg
+
+![Sintese](semaforo2/sintese.png)
+              
 
 
 
