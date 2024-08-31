@@ -99,7 +99,7 @@
  - 3) do tb.do
  - 4) Imagem da simulação
 
-![Simulação](simulacao.png)
+![Simulação](semaforo2/simulacao.png)
   
 ## 5 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
