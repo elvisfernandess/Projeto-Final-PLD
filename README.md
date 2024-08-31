@@ -99,7 +99,7 @@
  - 3) do tb.do
  - 4) Imagem da simulação
 
- ![Logo do Projeto](modelsim.png)
+![Simulação](simulacao.png)
   
 ## 5 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
