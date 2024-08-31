@@ -28,7 +28,7 @@
 **STARTT**
  - Estado STARTT criado com valor 0, para que ele vá para o estado IDLE imediatamente, garantindo com que o estado RED assuma o valor do estado IDLE;
 
-**START**
+**IDLE**
  - Estado IDLE para garantir a contagem total do estado RED.
  - Sem o estado IDLE, o estado RED utiliza a mesma contagem de tempo IDLE
 
