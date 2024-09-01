@@ -122,7 +122,7 @@ A partir do segundo ciclo da máquina de estados.
 
  ## Make - Procedimento Windows
 
- 1 - Abril power shell como administrador e digitar:
+1 - Abril power shell como administrador e digitar:
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
