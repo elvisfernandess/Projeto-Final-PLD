@@ -120,6 +120,36 @@ A partir do segundo ciclo da máquina de estados.
  
  ![Sintese](semaforo2/programmer.png)
 
+ ## Make - Procedimento Windows
+
+ 1 - Abril power shell como administrador e digitar:
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+
+2 - choco install make
+
+3 - make --version
+
+GNU Make 4.4.1
+Built for Windows32
+Copyright (C) 1988-2023 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+PS C:\Windows\system32>
+
+4 - make
+
+elvis@DESKTOP-FDIHVVJ MINGW64 ~/OneDrive/Documentos/projeto_final/riscv-multicycle-master/riscv-multicycle-master/software
+$ make
+../compiler/gcc/bin/riscv-none-embed-objcopy -O verilog blink.elf blink.tmp
+../compiler/gcc/bin/riscv-none-embed-objdump -h -S blink.elf > "blink.lss"
+python hex8tohex32.py blink.tmp > blink32.hex
+python hex8tointel.py blink.tmp > quartus_blink.hex
+rm blink32.hex
+
+
 
 
 
