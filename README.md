@@ -105,8 +105,11 @@ No primeiro ciclo da máquina de estados.
 A partir do segundo ciclo da máquina de estados.
 ![Simulação](semaforo2/simulacao2.png)
 
-## 5 SINTESE
+## 5 SUBPROGRAMAS
 
+É composto de:
+- BCD_to_7seg_display.vhd
+- bcd_to_7seg_pkg.vhd
 
 
 ## 6 GRAVAÇÃO
