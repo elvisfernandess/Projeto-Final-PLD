@@ -106,10 +106,18 @@ A partir do segundo ciclo da máquina de estados.
 ![Simulação](semaforo2/simulacao2.png)
 
 ## 5 SUBPROGRAMAS
-
-É composto de:
+Os subprogramas possuem as seguintes especificações:
+- Função que faz a conversão de 4-bits BCD para display de 7-segmentos (0 a 0xF).
+- Função que recebe um número de 8-bits e converte para dois diplays de 7 segmentos.
+- Tabela de conversão de BCD para display de 7 segmentos
+- Um vetor (array) constante para definir a tabela.
+- Atribuição das saídas usando a função convert_8bits_to_dual_7seg.
+- 
+Os arquivos utilizados nos subprogramas são:
 - BCD_to_7seg_display.vhd
 - bcd_to_7seg_pkg.vhd
+
+
 
 
 ## 6 GRAVAÇÃO
