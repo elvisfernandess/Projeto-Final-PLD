@@ -104,8 +104,12 @@ No primeiro ciclo da máquina de estados.
 
 A partir do segundo ciclo da máquina de estados.
 ![Simulação](semaforo2/simulacao2.png)
-  
-## 5 GRAVAÇÃO
+
+## 5 SINTESE
+
+
+
+## 6 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
  - 2) Assignments >> Settings... >> ... >> Apply >> OK
 
