@@ -93,7 +93,7 @@
  - Estado YELLOW iniciado.  Apenas LEDR (1) aceso; tempo estabelecido pelo estado YELLOW; tempo 15 segundos.
  - Estado GREEN iniciado.  Apenas LEDR (0) aceso; tempo estabelecido pelo estado GREEN; tempo 15 segundos.
 
-## 4 SIMULAÇÃO
+## 4 SIMULAÇÃO SEMÁFORO
  - 1) Abrir o software Modelsim
  - 2) cd C:/Users/elvis/OneDrive/Documentos/projeto_final/riscv-multicycle-master/riscv-multicycle-master/peripherals/semaforo2
  - 3) do tb.do
@@ -112,10 +112,15 @@ Os subprogramas possuem as seguintes especificações:
 - Tabela de conversão de BCD para display de 7 segmentos
 - Um vetor (array) constante para definir a tabela.
 - Atribuição das saídas usando a função convert_8bits_to_dual_7seg.
-- 
+  
 Os arquivos utilizados nos subprogramas são:
 - BCD_to_7seg_display.vhd
 - bcd_to_7seg_pkg.vhd
+- BCD_to_7seg_display_tb.vhd
+- do_BCD_to_7seg_display.do
+
+Simulação dos Subprogramas:
+![Simulação](semaforo2/simulacao3.png)
 
 
 
