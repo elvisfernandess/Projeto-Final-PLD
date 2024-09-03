@@ -190,6 +190,9 @@ python hex8tohex32.py blink.tmp > blink32.hex
 python hex8tointel.py blink.tmp > quartus_blink.hex
 rm blink32.hex
 
+ ![make](semaforo2/make.png)
+
+
 
 
 
