@@ -73,7 +73,7 @@ END ENTITY;
 
 ARCHITECTURE rtl OF de10_lite IS
 
-    -- Sinais para os semáforos e contadores
+    -- Sinais para o semáforo e contadores
     SIGNAL clk               : std_logic;                  -- Sinal de clock
     SIGNAL rst               : std_logic;                  -- Sinal de reset
     SIGNAL start             : std_logic;                  -- Sinal para a chave de start
@@ -158,7 +158,8 @@ BEGIN
     --HEX5 <= "11111100"; -- (dp,g,f,e,d,c) apagados
     --HEX5 <= "11111110"; -- (dp,g,f,e,d,c,b) apagados
     --HEX5 <= "11111111"; -- (dp,g,f,e,d,c,b,a) apagados
-
+	
+	--Sincronizando o valor de time_display a visual_display_test a cada subida de clock
     PROCESS(clk_div)
     BEGIN
         IF rising_edge(clk_div) THEN
@@ -166,7 +167,7 @@ BEGIN
         END IF;
     END PROCESS;
 
-    -- Processo para controlar o display HEX5 com base no valor de visual_display_test
+    -- Processo para controlar o displays HEX4 e HEX5 com base no valor de visual_display_test
     PROCESS(visual_display_test)
     BEGIN
         CASE to_integer(unsigned(visual_display_test)) IS
@@ -176,38 +177,38 @@ BEGIN
 				WHEN 15 =>
                 HEX4 <= "10000000"; -- Todos segmentos acesos (para um visual "15")
 				WHEN 14 =>
-                HEX4 <= "11000000"; -- Todos segmentos acesos (para um visual "14")
+                HEX4 <= "11000000"; -- (dp,g) apagados (para um visual "14")
 				WHEN 13 =>
-                HEX4 <= "11100000"; -- Todos segmentos acesos (para um visual "13")
+                HEX4 <= "11100000"; -- (dp,g,f) apagados (para um visual "13")
 				WHEN 12 =>
-                HEX4 <= "11110000"; -- Todos segmentos acesos (para um visual "12")
+                HEX4 <= "11110000"; -- (dp,g,f,e) apagados (para um visual "12")
 				WHEN 11 =>
-                HEX4 <= "11111000"; -- Todos segmentos acesos (para um visual "11")
+                HEX4 <= "11111000"; -- (dp,g,f,e,d) apagados (para um visual "11")
 				WHEN 10 =>
-                HEX4 <= "11111100"; -- Todos segmentos acesos (para um visual "10")
+                HEX4 <= "11111100"; -- (dp,g,f,e,d,c) apagados (para um visual "10")
 				WHEN 9 =>
-                HEX4 <= "11111110"; -- Todos segmentos acesos (para um visual "9")
-            WHEN 8 =>
+                HEX4 <= "11111110"; -- (dp,g,f,e,d,c,b) apagados (para um visual "9")
+				WHEN 8 =>
                 HEX5 <= "00000000"; -- Todos segmentos acesos (para um visual "8")
-            WHEN 7 =>
-                HEX5 <= "10000000"; -- Segmentos dp apagado
-            WHEN 6 =>
-                HEX5 <= "11000000"; -- Segmentos dp e g apagados
-            WHEN 5 =>
-                HEX5 <= "11100000"; -- Segmentos g e c apagados
-            WHEN 4 =>
-                HEX5 <= "11110000"; -- Segmentos e apagados
-            WHEN 3 =>
-                HEX5 <= "11111000"; -- Segmentos d apagados
-            WHEN 2 =>
-                HEX5 <= "11111100"; -- Segmentos c apagados
-            WHEN 1 =>
-                HEX5 <= "11111110"; -- Segmentos b apagados
-            WHEN 0 =>
-                HEX5 <= "11111111"; -- Todos segmentos apagados (para um visual "0")
-            WHEN OTHERS =>
-                HEX4 <= "11111111"; -- Todos segmentos acesos (default para "8")
-					 HEX5 <= "00000000"; -- Todos segmentos acesos (default para "8")
+				WHEN 7 =>
+                HEX5 <= "10000000"; -- (dp,g) apagados (para um visual "7")
+				WHEN 6 =>
+                HEX5 <= "11000000"; -- (dp,g,f) apagados (para um visual "6")
+				WHEN 5 =>
+                HEX5 <= "11100000"; -- (dp,g,f) apagados (para um visual "5")
+				WHEN 4 =>
+                HEX5 <= "11110000"; -- (dp,g,f,e) apagados (para um visual "4")
+				WHEN 3 =>
+                HEX5 <= "11111000"; -- (dp,g,f,e,d) apagados (para um visual "3")
+				WHEN 2 =>
+                HEX5 <= "11111100"; -- (dp,g,f,e,d,c) apagados (para um visual "2")
+				WHEN 1 =>
+                HEX5 <= "11111110"; -- (dp,g,f,e,d,c,b) apagados (para um visual "1")
+				WHEN 0 =>
+                HEX5 <= "11111111"; -- (dp,g,f,e,d,c,b,a) apagados (para um visual "0")
+				WHEN OTHERS =>
+                HEX4 <= "11111111"; -- (dp,g,f,e,d,c,b,a) apagados (default para "8.")
+			    HEX5 <= "00000000"; -- (dp,g,f,e,d,c,b,a) acesos (default para "8.")
 
         END CASE;
     END PROCESS;
