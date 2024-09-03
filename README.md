@@ -120,10 +120,13 @@ Os arquivos utilizados nos subprogramas são:
 - do_BCD_to_7seg_display.do
 
 Simulação dos Subprogramas:
+
+ - 1) Abrir o software Modelsim
+ - 2) cd C:/Users/elvis/OneDrive/Documentos/projeto_final/riscv-multicycle-master/riscv-multicycle-master/peripherals/semaforo2
+ - 3) do_BCD_to_7seg_display.do
+ - 4) Imagem da simulação
+
 ![Simulação](semaforo2/simulacao3.png)
-
-
-
 
 ## 6 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
