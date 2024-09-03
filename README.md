@@ -134,26 +134,34 @@ O arquivo de síntese é denominado de_10_lite.vhd e é composto de:
 - Pacote de conversão BCD para 7 segmentos (USE work.bcd_to_7seg_pkg.all;)
 - Sinais para o semáforo e contadores
 - Sinais para os displays de 7 segmentos
+- Sinal para o divisor de clock (clk_div)
 - Divisor de Clock para gerar um sinal de clock mais lento
 - Instância do DUT (Design Under Test) do semáforo
-- Processo para 
+- Processo para converter os valores de contagem para displays de 7 segmentos (ped_count, car_count, time_display, visual_display)
+- Atribuição dos valores convertidos aos displays
+- Sincronizar o valor de time_display a visual_display_test
+- Processo para controlar o displays HEX4 e HEX5 com base no valor de visual_display_test
 
-## 7 GRAVAÇÃO
- - 1) Abrir o software Quartus Prime
- - 2) Assignments >> Settings... >> ... >> Apply >> OK
-
-  Adicionar: 
+Compilação Síntese
+- 1) Abrir o software Quartus Prime
+- 2) Assignments >> Settings... >> ... >> Apply >> OK
+- 3) Adicionar: 
   - semaforo.vhd
   - BCD_to_7seg_display.vhd
   - bcd_to_7seg_pkg.vhd
 
 ![Sintese](semaforo2/sintese.png)
+
+- 4) Compilação (control + L):
+![Sintese](semaforo2/compilacao.png)
+
+## 7 GRAVAÇÃO
               
-- 3) Tools >> Programmer >> Start
+- Tools >> Programmer >> Start
  
  ![Sintese](semaforo2/programmer.png)
 
- ## Make - Procedimento Windows
+ ## 8 Make - Procedimento Windows
 
 1 - Abril power shell como administrador e digitar:
 
