@@ -128,7 +128,17 @@ Simulação dos Subprogramas:
 
 ![Simulação](semaforo2/simulacao3.png)
 
-## 6 GRAVAÇÃO
+## 6 SÍNTESE
+O arquivo de síntese é denominado de_10_lite.vhd e é composto de:
+
+- Pacote de conversão BCD para 7 segmentos (USE work.bcd_to_7seg_pkg.all;)
+- Sinais para o semáforo e contadores
+- Sinais para os displays de 7 segmentos
+- Divisor de Clock para gerar um sinal de clock mais lento
+- Instância do DUT (Design Under Test) do semáforo
+- Processo para 
+
+## 7 GRAVAÇÃO
  - 1) Abrir o software Quartus Prime
  - 2) Assignments >> Settings... >> ... >> Apply >> OK
 
