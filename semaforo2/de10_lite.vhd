@@ -4,7 +4,7 @@
 -- Version     : 0.1
 -- Copyright   : Departamento de Eletrônica, Florianópolis, IFSC
 -- Description : Projeto Final: síntese semáforo
--- Date        : 30/08/2024
+-- Date        : 03/09/2024
 -------------------------------------------------------------------
 
 LIBRARY ieee;
